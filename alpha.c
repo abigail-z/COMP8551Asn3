@@ -21,27 +21,31 @@
 void AlphaBlt(unsigned char *dst, unsigned char *src, int w, int h)
 {
 	int i;
-	int srcb, srcg, srcr, srca;
-	int dstb, dstg, dstr, dsta;
+	int srcB, srcG, srcR, srcA;
+	int dstB, dstG, dstR, dstA;
 
 	for (i=0; i < w * h * 4; i += 4)
 	{
-		srcb = src[i + 0];
-		srcg = src[i + 1];
-		srcr = src[i + 2];
-		srca = src[i + 3];
-		dstb = dst[i + 0];
-		dstg = dst[i + 1];
-		dstr = dst[i + 2];
-		dsta = dst[i + 3];
-		dstb = (srca * (srcb - dstb) + dstb * 256) / 256;
-		dstg = (srca * (srcg - dstg) + dstg * 256) / 256;
-		dstr = (srca * (srcr - dstr) + dstr * 256) / 256;
-		dsta = srca;
-		dst[i + 0] = dstb;
-		dst[i + 1] = dstg;
-		dst[i + 2] = dstr;
-		dst[i + 3] = dsta;
+		// grab src rgba
+		srcB = src[i + 0];
+		srcG = src[i + 1];
+		srcR = src[i + 2];
+		srcA = src[i + 3];
+		// grab dst rgba
+		dstB = dst[i + 0];
+		dstG = dst[i + 1];
+		dstR = dst[i + 2];
+		dstA = dst[i + 3];
+		// calculate blit rgba
+		dstB = (srcA * (srcB - dstB) + dstB * 256) / 256;
+		dstG = (srcA * (srcG - dstG) + dstG * 256) / 256;
+		dstR = (srcA * (srcR - dstR) + dstR * 256) / 256;
+		dstA = srcA;
+		// apply blit to dst
+		dst[i + 0] = dstB;
+		dst[i + 1] = dstG;
+		dst[i + 2] = dstR;
+		dst[i + 3] = dstA;
 	}
 }
 
